@@ -1,11 +1,11 @@
 var path = require('path');
 const express = require('express')
-const morgan = require('morgan')
+const morgan = require('morgan') // thu vien log loi
 const { engine } = require('express-handlebars');
-var methodOverride = require('method-override');
+// var methodOverride = require('method-override');
 const app = express()
 const port = 3000
-const db = require('./config/db')
+// const db = require('./config/db')
 
 // conect db
 db.connect();
