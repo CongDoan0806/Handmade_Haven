@@ -1,0 +1,30 @@
+{
+  "name": "handmade_haven",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CongDoan0806/Handmade_Haven.git"
+  },
+  "keywords": [
+    "cong_doan",
+    "handmade"
+  ],
+  "author": "CongDoan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CongDoan0806/Handmade_Haven/issues"
+  },
+  "homepage": "https://github.com/CongDoan0806/Handmade_Haven#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
