@@ -1,0 +1,140 @@
+<div class="login-register-container">
+    <div class="form-container">
+        <!-- Form Đăng Nhập -->
+        <form id="loginForm">
+            <h2>Login</h2>
+            <div class="mb-3">
+                <input type="email" class="form-control" id="email-login" placeholder="Email" required>
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" id="password-login" placeholder="Password" required>
+            </div>
+            <button class="btn btn-primary w-100" id = "login-btn">Login</button>
+            <p class="mt-3">Don't have an account? <span class="toggle-link" onclick="toggleForms()">Register</span></p>
+        </form>
+        <!-- Form dang ky -->
+        <form id="registerForm" style="display: none;">
+            <h2>Register</h2>
+            
+            <div class="mb-3">
+                <input type="text" class="form-control register-name" placeholder="Name" required>
+            </div>
+            
+            <div class="mb-3 d-flex align-items-center">
+                <input type="email" class="form-control register-email me-2" placeholder="Email" required>
+                <button type="button" class="btn btn-primary" id="send-code-btn">OTP</button>
+            </div>
+
+            
+            <div class="mb-3">
+                <input type="text" class="form-control register-code" placeholder="Enter Code" required>
+            </div>
+            
+            <div class="mb-3">
+                <input type="password" class="form-control register-password" placeholder="Password" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" id="register-btn">Register</button>
+
+            <p class="mt-3">Already have an account? <span class="toggle-link" onclick="toggleForms()">Login</span></p>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function toggleForms() {
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        loginForm.style.display = (loginForm.style.display === 'none') ? 'block' : 'none';
+        registerForm.style.display = (registerForm.style.display === 'none') ? 'block' : 'none';
+    }
+
+    document.querySelector('#login-btn').addEventListener('click', (event) => {
+        event.preventDefault();
+        const email = document.querySelector('#email-login').value;
+        const password = document.querySelector('#password-login').value;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/user/login", true);
+        xhr.setRequestHeader("Content-Type", "application/json"); 
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    window.location.href = '/';
+                } else {
+                    alert('fail')
+                }
+            }
+        };
+        xhr.send(JSON.stringify({ email, password }));
+    })
+
+   document.querySelector('#register-btn').addEventListener('click', async (event) => {
+    event.preventDefault(); // Ngăn form submit mặc định
+
+    const name = document.querySelector('.register-name').value;
+    const email = document.querySelector('.register-email').value;
+    const password = document.querySelector('.register-password').value;
+    const code = document.querySelector('.register-code').value;
+
+    if (!name || !email || !password) {
+        showToast('Please enter complete information');
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/user/register", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            try {
+                const response = JSON.parse(xhr.responseText); // Parse JSON response
+                if (xhr.status == 200) {
+                    showToast("Registration successful!");
+                    setTimeout(() => {
+                        window.location.href = '/user'; 
+                    }, 1500);
+                } else if (xhr.status == 409) { 
+                    showToast("Email already exists, please choose another email!");
+                } else {
+                    showToast(response.message || 'Registration failed');
+                }
+            } catch (error) {
+                showToast("System error, please try again!");
+                console.error("Error parse JSON:", error);
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify({ name, email, password, code }));
+});
+
+document.querySelector("#send-code-btn").addEventListener("click", function(e) {
+    e.preventDefault();
+
+    const email = document.querySelector('.register-email').value;
+    const user = document.querySelector('.register-name').value;
+    if (!email) {
+        showToast('Please enter email');
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/user/sendOTP", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                 showToast('OTP code has been sent to your email');
+            } else {
+                 showToast("Error");
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify({ email, user }));
+});
+</script>

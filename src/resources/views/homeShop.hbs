@@ -1,0 +1,210 @@
+<div class="homeshop-container mt-3">
+    <div class="slider-container-homeshop w-100">
+        
+        <div class="slider-box" id="slider-left">
+            <img src="/img/homeShop/slider-1.jpg" class="show">
+            <img src="/img/homeShop/slider-2.jpg" class="hide-right">
+            <img src="/img/homeShop/slider-3.jpg" class="hide-right">
+            <img src="/img/homeShop/slider-4.jpg" class="hide-right">
+            <img src="/img/homeShop/slider-5.jpg" class="hide-right">
+            <img src="/img/homeShop/slider-6.jpg" class="hide-right">
+            <img src="/img/homeShop/slider-7.jpg" class="hide-right">
+            <img src="/img/homeShop/slider-8.jpg" class="hide-right">
+            <h3 class="text-overlay text-overlay-1">Home Decor</h3>
+        </div>
+
+        <div class="" id="slider-center">
+            <img src="/img/homeShop/slider-4.jpg" >
+            <div class="text-overlay text-overlay-2">Creative & Unique Hand Made Items</div>
+            <a href="/shop" class="shopHome-navigate-home">SHOP NOW!</a>
+        </div>
+
+         <div class="slider-box-right">
+
+           <div class="slider-box" id="slider-right-top">
+               <img src="/img/homeShop/slider-7.jpg" class="show">
+                <img src="/img/homeShop/slider-8.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-1.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-2.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-3.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-4.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-5.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-6.jpg" class="hide-right">
+               <div class="text-overlay text-overlay-3">Lovely Souvenirs</div>
+           </div>
+   
+           <div class="slider-box" id="slider-right-bottom">
+               <img src="/img/homeShop/slider-2.jpg" class="show">
+                <img src="/img/homeShop/slider-3.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-4.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-5.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-6.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-7.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-8.jpg" class="hide-right">
+                <img src="/img/homeShop/slider-1.jpg" class="hide-right">
+               <div class="text-overlay text-overlay-4">Exclusive Accessories</div>
+           </div>
+         </div>
+    </div>
+    <div class="blog-home w-100 mb-5 ">
+        <div class="blog-home-title d-flex flex-column justify-content-center align-items-center">
+            <p class="subtitle mt-5">NEW LIMITED COLLECTION</p>
+            <div class="title-blog-home d-flex align-items-center">
+                <span class="line"></span>
+                <h2 class="main-title">NEW ARRIVALS</h2>
+                <span class="line"></span>
+            </div>
+        </div>
+    </div>
+    <div class="container d-flex flex-wrap justify-content-center align-items-center gap-5">
+      {{#each products}}
+      <div class="product-card">
+        <div class="product-image">
+          <a href="/product/{{this.slug}}">
+            <img src="/img/product/{{this.product_image}}" alt="{{this.product_image}}">
+          </a>
+          <div class="hover-actions">
+            <i class="bi bi-search action-btn"></i>
+            <i class="bi bi-heart action-btn"></i>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">{{this.product_name}}</h3>
+          <p class="product-category">{{this.product_title}}</p>
+          <div class="product-price">
+            <p>{{this.product_price}}</p>
+          </div>
+          <button class="add-to-cart">ADD TO CART</button>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+    {{!--  --}}
+    <div class="container homeshop-center mt-5 mb-5">
+        <div class="homeshop-center-top d-flex justify-content-center align-items-center mb-5">
+            <div class="homeshop-center-top-item homeshop-center-top-item-1 d-flex justify-content-around align-items-center">
+                <div class="homeshop-center-top-icon">
+                <i class="bi bi-palette"></i>
+                </div>
+                <div class="homeshop-center-top-content">
+                <h3 class="homeshop-center-top-content-title">unique & creative</h3>
+                <p class="homeshop-center-top-content-text ">Crafted by our loving hands</p>
+                </div>
+            </div>
+            <div class="homeshop-center-top-item homeshop-center-top-item-2 d-flex justify-content-around align-items-center">
+                <div class="homeshop-center-top-icon">
+                <i class="bi bi-award"></i>
+                </div>
+                <div class="homeshop-center-top-content">
+                <h3 class="homeshop-center-top-content-title">exceptional quality</h3>
+                <p class="homeshop-center-top-content-text ">Only premium materials used</p>
+                </div>
+            </div>
+            <div class="homeshop-center-top-item homeshop-center-top-item-3 d-flex justify-content-around align-items-center">
+                <div class="homeshop-center-top-icon">
+                <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <div class="homeshop-center-top-content">
+                <h3 class="homeshop-center-top-content-title">100% Money back</h3>
+                <p class="homeshop-center-top-content-text ">We care about our customers</p>
+                </div>
+            </div>
+        </div>
+        <div class="homeshop-center-bottom d-flex justify-content-center align-items-center gap-2">
+            <div class="homeshop-center-bottom-item homeshop-center-bottom-item-1 w-100 flex-column d-flex justify-content-center align-items-center">
+                <i class="bi bi-gem"></i>
+                <h5 class="content mt-3">Accessories</h5>
+            </div>
+            <div class="homeshop-center-bottom-item homeshop-center-bottom-item-2 w-100 flex-column d-flex justify-content-center align-items-center">
+                <i class="bi bi-house"></i>
+                <h5 class="content mt-3">Home Decor</h5>
+            </div>
+            <div class="homeshop-center-bottom-item homeshop-center-bottom-item-3 w-100 flex-column d-flex justify-content-center align-items-center">
+                <i class="bi bi-gift"></i>
+                <h5 class="content mt-3">Souvenirs</h5>
+            </div>
+            <div class="homeshop-center-bottom-item homeshop-center-bottom-item-4 w-100 flex-column d-flex justify-content-center align-items-center">
+                <i class="bi bi-lightning"></i>
+                <h5 class="content mt-3">Miscellaneous</h5>
+            </div>
+        </div>
+    </div>
+    {{!--  --}}
+    <div class="container display-home-card flex-wrap d-flex justify-content-center align-items-center gap-3">
+        {{#each products}}
+         <div class="home-card">
+            <div class="home-card-image">
+                <img src="/img/product/{{this.product_image}}" alt="Product Image">
+            </div>
+            <div class="home-card-details">
+                <div class="home-card-price-container">
+                    <p class="home-card-price">${{this.product_price}}.00 </p>
+                </div>
+                <div class="home-card-bellow">
+                    <p class="home-card-title">{{this.product_title}}</p>
+                    <p class="home-card-name mb-5">{{this.product_name}}</p>
+                <div class="home-card-btn">
+                    <button class="home-card-add-to-cart d-flex justify-content-start align-items-center"><i class="bi bi-bag pe-1"></i><b>ADD TO CART</b></button>
+                    <i class="bi bi-search action-btn home-card-btn d-flex justify-content-center align-items-center"></i>
+                    <i class="bi bi-heart action-btn home-card-btn d-flex justify-content-center align-items-center"></i>
+                </div>
+            </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <div class="home-foot-img d-flex mb-5 mt-5">
+      <img class="home-foot-item" src="/img/home/home-foot-1.jpg" alt="Footer Image">
+      <img class="home-foot-item"  src="/img/home/home-foot-2.jpg" alt="Footer Image">
+      <img class="home-foot-item"  src="/img/home/home-foot-3.jpg" alt="Footer Image">
+      <img class="home-foot-item"  src="/img/home/home-foot-4.jpg" alt="Footer Image">
+      <img class="home-foot-item"  src="/img/home/home-foot-5.jpg" alt="Footer Image">
+      <img class="home-foot-item"  src="/img/home/home-foot-6.jpg" alt="Footer Image">
+    </div> 
+</div>
+
+    <script>
+        // Mỗi khung sẽ có một mảng ảnh riêng
+        const sliders = [
+            document.querySelector('#slider-left'),
+            document.querySelector('#slider-center'),
+            document.querySelector('#slider-right-top'),
+            document.querySelector('#slider-right-bottom')
+        ];
+
+        sliders.forEach(slider => {
+          const images = slider.querySelectorAll('img');
+          const text = slider.querySelector('.text-overlay');
+          let currentIndex = 0;
+
+          function nextSlide() {
+              // Ẩn ảnh hiện tại
+              images[currentIndex].classList.remove('show');
+              images[currentIndex].classList.add('hide-left');
+
+              // Chuyển sang ảnh kế tiếp
+              currentIndex = (currentIndex + 1) % images.length;
+
+              // Hiển thị ảnh kế tiếp
+              images[currentIndex].classList.remove('hide-right');
+              images[currentIndex].classList.add('show');
+
+              // Đảm bảo ảnh cũ quay lại trạng thái ban đầu để lặp
+              const previousIndex = (currentIndex === 0) ? images.length - 1 : currentIndex - 1;
+              setTimeout(() => {
+                  images[previousIndex].classList.remove('hide-left');
+                  images[previousIndex].classList.add('hide-right');
+              }, 2000); // Đảm bảo thời gian khớp với animation
+
+              // Thay đổi văn bản
+              text.classList.add('hidden');
+              setTimeout(() => {
+                  text.classList.remove('hidden');
+              }, 500); // Delay để đồng bộ với animation
+          }
+
+          setInterval(nextSlide, 5000); // Thời gian đổi ảnh
+      });
+
+    </script>

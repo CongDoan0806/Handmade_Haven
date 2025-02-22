@@ -1,0 +1,172 @@
+  <div class="container my-5 cart-container">
+    <h3 class="mb-4 fw-bold">Shopping Cart</h3>
+    <div class="d-flex justify-content-end mb-2">
+        <span class="text-muted"><span class="countCart"></span> Items</span>
+    </div>
+    <table class="table align-middle shoppingCart">
+        <tbody>
+            {{#each products}}
+          <tr data-cart-id="{{this.cart_id}}">
+            <td style='width: 2%'>
+                <input type='checkbox' class='form-check-input' checked>
+            </td>
+            <td style='width: 15%'>
+                <img class='rounded' src='/img/product/{{this.product_image}}' style='with: 100px; height:100px;'>
+            </td>
+            <td>
+                <span class='fw-bold' data-product-id='{{this.product_id}}'>{{this.product_name}}</span><br>
+                <small class='text-muted'>{{this.category_name}}</small>
+            </td>
+            <td class='text-center'>
+                <button class='btn btn-sm btn-light dashQuantity'><i class='bi bi-dash'></i></button>
+                <span class='mx-2 quantity'>{{this.quantity}}</span>
+                <button class='btn btn-sm btn-light plusQuantity'><i class='bi bi-plus'></i></button>
+            </td>
+            <td class='text-center' id="amount">$<span>{{this.total_price}}.00 </span></td>
+            <td style='width: 2%'>
+                <form action="/cart/{{this.product_id}}?_method=DELETE" method="POST"><button class="btn-remove-cartItem"><i class='bi bi-x-lg text-danger'></i></button></form>
+            </td>
+        </tr>
+        {{/each}}
+        </tbody>
+  </table>
+    <div class="d-flex justify-content-between align-items-center">
+        <a href="/shop" class="text-decoration-none back-shop-btn"><i class="bi bi-arrow-left "></i> Back to shop</a>
+        <button class="btn custom-btn-outline px-4 checkout" onclick="storeOrder()">CHECKOUT</button>
+    </div>
+</div>
+
+<script>
+  const itemCarts = document.querySelectorAll(".shoppingCart tr");
+  itemCarts?.forEach(item => {
+    const itemQuantity = item.querySelector(".quantity");
+    const price = item.querySelector("td:nth-child(5) span");
+    item.querySelector(".dashQuantity").addEventListener("click", (e) => {
+        const row = e.target.closest("tr"); 
+        const cartId = parseInt(row.getAttribute("data-cart-id")) ; 
+        const quantity = parseInt(itemQuantity.innerText) - 1;
+        if(quantity <= 0) {
+            console.log("The limit has been reached!");
+        } else {
+            price.innerText = ((parseFloat(price.innerText)/parseInt(itemQuantity.innerText))*quantity).toFixed(2);
+            itemQuantity.innerText = quantity;
+            postCartItemQuantity(quantity, cartId);
+        }
+    });
+
+    item.querySelector(".plusQuantity").addEventListener("click", (e) => {
+        const row = e.target.closest("tr");
+        const cartId = parseInt(row.getAttribute("data-cart-id")) ; 
+        const quantity = parseInt(itemQuantity.innerText) + 1;
+        if(quantity > 10) {
+            console.log("The limit has been reached!");
+        } else {
+            price.innerText = ((parseFloat(price.innerText)/parseInt(itemQuantity.innerText))*quantity).toFixed(2);
+            itemQuantity.innerText = quantity;
+            postCartItemQuantity(quantity, cartId);
+        }
+    });
+
+});
+
+function getSelectedCartItems() {
+    const selectedItems = [];
+    let totalAmount = 0;
+
+    document.querySelectorAll(".shoppingCart tr").forEach(row => {
+        const checkbox = row.querySelector("input[type='checkbox']");
+
+        if (checkbox && checkbox.checked) {
+            const cartId = row.getAttribute("data-cart-id");
+            const productName = row.querySelector("td:nth-child(3) span").innerText.trim();
+            const quantity = parseInt(row.querySelector(".quantity").innerText);
+            const product_id = row.querySelector("td:nth-child(3) span").getAttribute("data-product-id");
+            const price = parseFloat(row.querySelector("td:nth-child(5) span").innerText.replace("$", "").trim());
+
+            totalAmount += quantity * price; 
+
+            selectedItems.push({ product_id, quantity, price });
+        }
+    });
+
+    return { selectedItems, totalAmount };
+}
+
+
+function storeOrder() {
+    const { selectedItems, totalAmount } = getSelectedCartItems();
+    
+    if (selectedItems.length === 0) {
+        alert("Bạn chưa chọn sản phẩm nào!"); // Thêm thông báo cho người dùng
+        return;
+    }
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/cart/order", true);
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 201) { // Sử dụng 201 cho "Created"
+                const response = JSON.parse(xhr.responseText);
+                payWithMomo(response.totalAmount);
+                selectedItems.forEach(item => {
+                    const row = document.querySelector(`tr[data-product-id="${item.product_id}"]`);
+                    if (row) row.remove();
+                });
+            } else {
+                console.error("Failed to create an order:", xhr.responseText);
+                alert("Đã xảy ra lỗi khi đặt hàng!");
+            }
+        }
+    };
+
+    xhr.send(JSON.stringify({ selectedItems, totalAmount }));
+}
+
+function postCartItemQuantity(quantity, cartId){
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "/cart/updateQuantity", true);
+        xhr.setRequestHeader("Content-Type", "application/json"); 
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    console.log("Quantity updated successfully!");
+                } else {
+                    console.error("Failed to update quantity");
+                }
+            }
+        };
+        xhr.send(JSON.stringify({ quantity, cartId }));
+}
+
+
+        async function payWithMomo(totalAmount) {
+            let amount = totalAmount;
+
+            console.log(amount);
+            if (!amount || amount <= 0) {
+                alert("Vui lòng nhập số tiền hợp lệ!");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:3000/momo", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ amount, orderInfo: "Thanh toán đơn hàng" })
+                });
+
+                const data = await response.json();
+                if (data.payUrl) {
+                    window.location.href = data.payUrl;
+                } else {
+                    alert("Lỗi tạo thanh toán!");
+                }
+            } catch (error) {
+                console.error("Lỗi thanh toán:", error);
+                alert("Có lỗi xảy ra!");
+            }
+        }
+</script>

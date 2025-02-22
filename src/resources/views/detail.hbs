@@ -1,0 +1,177 @@
+<div class="detail-container">
+    <div class="detail-head text-center d-flex flex-column justify-content-center align-items-center">
+        <h1 class="head-name-product">{{product.product_name}}</h1>
+        <div class="link-detail-head d-flex text-center justify-content-center">
+            <a href="/">Home</a> <span> / </span>
+            <p>{{product.product_name}}</p>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="row">
+            <!-- Phần nội dung chiếm col-lg-9 -->
+            <div class="col-lg-9">
+                <div class="detail-product-info">
+                    <div class="row g-0">
+                        <!-- Hình ảnh sản phẩm -->
+                        <div class="col-md-6 text-center detail-img-field">
+                            <img src="/img/product/{{product.product_image}}" class="img-fluid detail-img" alt="Product Image">
+                        </div>
+                        <!-- Thông tin sản phẩm -->
+                        <div class="col-md-6">
+                            <div class="name-price d-flex justify-content-between">
+                                <div class="name-title ">
+                                    <h2>{{product.product_name}}</h2>
+                                    <p class="text-muted">HOME DECOR</p>
+                                </div>
+                                <h4 class="text-danger">${{product.product_price}}.00</h4>
+                            </div>
+                            <p>{{product.product_description}}</p>
+                            <div class="d-flex align-items-center mb-3">
+                                <input type="number" value="1" min="1" max="10" step="1" class="quantity-product ps-3">
+                                <button class="addToCart-btn" data-product-id="{{product.product_id}}">Add to Cart</button>
+                            </div>
+                            <button class="btn btn-outline-secondary">Add to Wishlist</button>
+                            <div class="mt-4">
+                                <a href="#" class="btn btn-outline-dark me-2">Facebook</a>
+                                <a href="#" class="btn btn-outline-dark me-2">Twitter</a>
+                                <a href="#" class="btn btn-outline-dark">Pinterest</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="mt-5">
+                <div class="container mt-4">
+                    <ul class="nav nav-tabs" id="productTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="description-tab" data-bs-toggle="tab" data-bs-target="#description" type="button" role="tab">Description</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">Reviews ({{reviews.length}})</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content mt-3" id="productTabsContent">
+                        <div class="tab-pane fade show active" id="description" role="tabpanel">
+                            <p>{{product.product_description}}</p>
+                        </div>
+                        <div class="tab-pane fade" id="reviews" role="tabpanel">
+                            <div class="comment">
+                                <div class="allComment">
+                                {{#each comments}}
+                                    <div class="commentItem d-flex mb-3 justify-content-between">
+                                    <div class="main-comment d-flex">
+                                        <div class="userImg">
+                                            <img src="/img/user/{{this.customer_img}}" alt="" class="user-img">
+                                        </div>
+                                        <div class="comment-infor">
+                                            <p class="user-name-comment">{{this.name}}</p>
+                                            <p class="comment-content">
+                                                {{this.content}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="comment-option d-flex flex-column gap-2">
+                                        <i class="update-comment-btn bi bi-pencil"></i>
+                                        <i class="delete-comment-btn bi bi-trash" data-comment-id="{{this.comment_id}}"></i>
+                                    </div>
+                                    </div>
+                                    <hr>
+                                    {{/each}}
+                                </div>
+                                <div class="comment-title mb-3">Leave a Reply</div>
+                                <p>Your email address will not be published.</p>
+                                <textarea id="comment-content" placeholder="Comment" rows="4" cols="50"></textarea>
+                                <button class="add-comment-btn uppercase" data-blog-id="{{blog.post_id}}">add comment</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="container pe-5 ps-5 pt-3 pb-3 related-product">
+                    <div class="title-blog-home d-flex align-items-center justify-content-center mb-5">
+                        <span class="line"></span>
+                        <h2 class="main-title uppercase">related products</h2>
+                        <span class="line"></span>
+                    </div>
+                    <div class="row">
+                        <!-- Hiển thị danh sách sản phẩm liên quan -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phần mới chiếm col-lg-3 -->
+            <div class="col-lg-3 shop-sidebar">
+                <!-- Categories -->
+                <div class="mb-4 filter-category mt-4">
+                    <div class="shop-category d-flex justify-content-center align-items-center">
+                    <div class="line-shop"></div>
+                    <h5 class="category-title">Categories</h5>
+                    <div class="line-shop"></div>
+                    </div>
+                    <ul>
+                    <li class="category-type">Accessories</li>
+                    <hr>
+                    <li class="category-type">Home Decor</li>
+                    <hr>
+                    <li class="category-type">Miscellaneous</li>
+                    <hr>
+                    <li class="category-type">Souvenirs</li>
+                    <hr>
+                    <li class="category-type">Uncategorized</li>
+                    <hr>
+                    </ul>
+                </div>
+                <div class="featured-products">
+                    <div class="shop-category d-flex justify-content-center align-items-center">
+                        <div class="line-shop"></div>
+                        <h5 class="category-title">Featured Products</h5>
+                        <div class="line-shop"></div>
+                        </div>        
+                        <!-- Product 1 -->
+                        <div class="featured-product">
+                        <img src="https://aeolidia.com/wp-content/uploads/2023/02/wholesaling-handmade.jpg" alt="Christmas Wreath">
+                        <div class="product-info">
+                            <div class="product-title">Christmas Wreath</div>
+                            <div class="product-rating">
+                            <span class="star empty">★</span>
+                            <span class="star empty">★</span>
+                            <span class="star empty">★</span>
+                            <span class="star empty">★</span>
+                            <span class="star empty">★</span>
+                            </div>
+                            <div class="product-price">£18.00</div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+     // xử lý gửi id của product
+document.querySelector(".addToCart-btn").addEventListener("click", (e) => {
+        const productId = e.target.getAttribute("data-product-id"); 
+        const quantity = document.querySelector(".quantity-product").value;
+        const xhr = new XMLHttpRequest();
+        xhr.open("POST", "/product/addToCart", true);
+        xhr.setRequestHeader("Content-Type", "application/json"); 
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                if (xhr.status == 200) {
+                    showToast("Product added to cart successfully!");
+                    addQuantityCart()
+                } else {
+                   if (xhr.status == 401) {
+                        showToast("You need to login first!");  
+                    } else {
+                        showToast("An error occurred. Please try again.");
+                    }
+                }
+            }
+        };
+        xhr.send(JSON.stringify({ productId, quantity }));
+ });
+</script>

@@ -1,0 +1,67 @@
+<div class="header">
+    <div class="home-banner w-100 d-flex justify-content-center mt-5 mb-5">
+        <img class="img-banner" src="/img/banner.png" alt="">
+    </div>
+
+</div>
+    <div class="main-header">
+        <div class="reference d-flex gap-4">
+            <i class="bi bi-twitter"></i>
+            <i class="bi bi-instagram"></i>
+            <i class="bi bi-facebook"></i>
+            <i class="bi bi-pinterest"></i>
+        </div>
+        <div class="header-tab d-flex justify-content-around gap-5">
+            <a href="/" class="home-tab"><b>HOME</b></a>
+            <a href="/homeShop" class="home-shop-tab"><b>HOME SHOP</b></a>
+            <a href="/shop" class="shop-tab"><b>SHOP</b></a>
+            <a href="/blog" class="shop-tab"><b>BLOGS</b></a>
+        </div>
+        <div class="header-left d-flex gap-4">
+            <input type="text" class="search-input ps-2" placeholder="Search...">
+            <div class="search-container">
+                <i class="bi bi-search icon-right" id="search-icon"></i>
+            </div>
+            <div class="cart-tab icon-right">
+                <a href="/cart"><i class="bi bi-bag"></i></a>
+                <span class="cart-count">{{cartQuantity}}</span>
+            </div>
+            <div class="user-menu">
+                <i class="bi bi-person"></i>
+                <div class="dropdown">
+                    {{#if isAuthenticated}}
+                        <a href="/profile">Profile</a>
+                        <a href="/user/logout">Log Out</a>
+                    {{else}}
+                        <a href="/user">Log In</a>
+                        <a href="/register">Register</a>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+<script>
+    function addQuantityCart() {
+      let countCartElement = document.querySelector('.cart-count');
+      let count = parseInt(countCartElement.innerText);
+      countCartElement.innerText = count + 1; 
+    }
+
+    document.querySelector('.search-input').addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            const query = document.querySelector('.search-input').value;
+            search(query);
+        }
+    });
+
+    document.querySelector('#search-icon').addEventListener('click', function(event) {
+        const query = document.querySelector('.search-input').value;
+        search(query);
+        
+    });
+
+    function search(query){
+        window.location.href = `/search?keyword=${encodeURIComponent(query)}`;
+    }
+</script>
