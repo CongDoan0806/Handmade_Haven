@@ -2,19 +2,36 @@ var path = require('path');
 const express = require('express')
 const morgan = require('morgan') // thu vien log loi
 const { engine } = require('express-handlebars');
-// var methodOverride = require('method-override');
 const app = express()
 const port = 3000
-// const db = require('./config/db')
+const db = require('./config/db')
+const methodOverride = require('method-override');
 
-// conect db
-db.connect();
+const session = require('express-session');
 
-const route = require('./routes')
+app.use(session({
+  secret: 'your-secret-key',  // Chuỗi bí mật để mã hóa session
+  resave: false,  
+  saveUninitialized: false,  
+  cookie: { secure: false }  // Để false nếu không dùng HTTPS
+}));
 
-app.use(methodOverride('_method'))
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = !!req.session.userId; 
+  next();
+});
+// Sử dụng query string "_method" để override method
+app.use(methodOverride('_method'));
 
-app.use(express.static(path.join(__dirname, 'public')))
+const cartQuantityMiddleware = require('./app/middlewares/cartMiddlewares');
+
+app.use(cartQuantityMiddleware);
+
+const route = require('./routers')
+
+// app.use(methodOverride('_method'))
+
+app.use(express.static(path.join(__dirname, 'public'))) // xuử lý hiển thị ảnhảnh
 
 app.use(express.urlencoded({
   extended: true  // parse application/x-www-form-urlencoded
@@ -40,3 +57,4 @@ route(app);
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })
+

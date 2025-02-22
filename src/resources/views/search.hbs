@@ -1,0 +1,205 @@
+<div class="detail-head text-center d-flex flex-column justify-content-center align-items-center" >
+    <h2 class="head-name-shop"></h2>
+    <div class="link-detail-head d-flex text-center justify-content-center">
+        <a href="/">Home</a>
+        <span> / </span>
+        <p>Shop</p>
+    </div>
+</div>
+<div class="container search-container">
+     <div class="row">
+      <!-- Main Content -->
+      <div class="col-lg-9">
+        <!-- Product Grid -->
+        <div class="row g-4 mt-4 mb-4">
+          <!-- Product Card -->
+          <div
+            class="container d-flex flex-wrap justify-content-between align-items-center gap-1 row-gap-5"
+          >
+            {{#each products}}
+              <div class="product-card product-card-shop">
+                <div class="product-image">
+                  <a href="/product/{{this.slug}}">
+                    <img
+                      src="/img/product/{{this.product_image}}"
+                      alt="{{this.product_image}}"
+                    />
+                  </a>
+                  <div class="hover-actions">
+                    <i class="bi bi-search action-btn"></i>
+                    <i class="bi bi-heart action-btn"></i>
+                  </div>
+                </div>
+                <div class="product-info">
+                  <h3 class="product-name">{{this.product_name}}</h3>
+                  <p class="product-category">{{this.product_title}}</p>
+                  <div class="product-price">
+                    <p>${{this.product_price}}.00</p>
+                  </div>
+                  <button class="add-to-cart" data-product-id="{{this.product_id}}">ADD TO CART</button>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+          <div class="not-found-data flex-column justify-content-center align-items-center w-100">
+            <i class="bi bi-box-seam"></i>
+            <p>No products found</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-3 shop-sidebar">
+        <!-- Filter by Price -->
+        <div class="mt-4">
+          <div class="filter-price-container">
+            <div class="filter-price-title">Filter by price</div>
+            <div class="filter-range">
+              <div class="range-track" id="rangeTrack"></div>
+              <input type="range" min="0" max="150" value="0" id="rangeMin" />
+              <input type="range" min="0" max="150" value="150" id="rangeMax" />
+            </div>
+            <div class="filter-price-values">
+              <div class="filter-price-value" id="valueMin">$50</div>
+              <div class="filter-price-value" id="valueMax">$150</div>
+            </div>
+            <div class="filter-reset">
+              <a href="#" id="resetBtn">Reset</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="mb-4 filter-category mt-4">
+          <div
+            class="shop-category d-flex justify-content-center align-items-center"
+          >
+            <div class="line-shop"></div>
+            <h5 class="category-title">Categories</h5>
+            <div class="line-shop"></div>
+          </div>
+          <ul>
+            <li class="category-type">Accessories</li>
+            <hr />
+            <li class="category-type">Home Decor</li>
+            <hr />
+            <li class="category-type">Miscellaneous</li>
+            <hr />
+            <li class="category-type">Souvenirs</li>
+            <hr />
+            <li class="category-type">Uncategorized</li>
+            <hr />
+          </ul>
+        </div>
+        <div class="featured-products">
+          <div
+            class="shop-category d-flex justify-content-center align-items-center"
+          >
+            <div class="line-shop"></div>
+            <h5 class="category-title">Featured Products</h5>
+            <div class="line-shop"></div>
+          </div>
+          <!-- Product 1 -->
+          <div class="featured-product">
+            <img
+              src="https://aeolidia.com/wp-content/uploads/2023/02/wholesaling-handmade.jpg"
+              alt="Christmas Wreath"
+            />
+            <div class="product-info">
+              <div class="product-title">Christmas Wreath</div>
+              <div class="product-price">£18.00</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const keyword = params.get("keyword")
+    document.querySelector('.head-name-shop').textContent = keyword;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const productCards = document.querySelectorAll(".product-card-shop");
+        const notFoundMessage = document.querySelector(".not-found-data");
+
+        if (productCards.length > 0) {
+            notFoundMessage.style.display = "none";
+        } else {
+            notFoundMessage.style.display = "flex";
+        }
+    });
+   const rangeMin = document.getElementById("rangeMin");
+const rangeMax = document.getElementById("rangeMax");
+const valueMin = document.getElementById("valueMin");
+const valueMax = document.getElementById("valueMax");
+const rangeTrack = document.getElementById("rangeTrack");
+const resetBtn = document.getElementById("resetBtn");
+const productCards = document.querySelectorAll(".product-card"); // Lấy tất cả sản phẩm
+
+const updateTrack = () => {
+  const min = parseInt(rangeMin.value);
+  const max = parseInt(rangeMax.value);
+  const trackMin = (min / rangeMin.max) * 100;
+  const trackMax = (max / rangeMax.max) * 100;
+  rangeTrack.style.left = `${trackMin}%`;
+  rangeTrack.style.width = `${trackMax - trackMin}%`;
+};
+
+const updateValues = () => {
+  valueMin.textContent = `$${rangeMin.value}`;
+  valueMax.textContent = `$${rangeMax.value}`;
+};
+
+const filterProducts = () => {
+  const minPrice = parseInt(rangeMin.value);
+  const maxPrice = parseInt(rangeMax.value);
+
+  productCards.forEach((card) => {
+    const priceElement = card.querySelector(".product-price");
+    if (priceElement) {
+      const price = parseFloat(priceElement.textContent.replace("$", ""));
+      if (price >= minPrice && price <= maxPrice) {
+        card.style.display = "block"; // Hiển thị sản phẩm hợp lệ
+      } else {
+        card.style.display = "none"; // Ẩn sản phẩm không hợp lệ
+      }
+    }
+  });
+};
+
+rangeMin.addEventListener("input", () => {
+  if (parseInt(rangeMin.value) > parseInt(rangeMax.value)) {
+    rangeMin.value = rangeMax.value;
+  }
+  updateTrack();
+  updateValues();
+  filterProducts();
+});
+
+rangeMax.addEventListener("input", () => {
+  if (parseInt(rangeMax.value) < parseInt(rangeMin.value)) {
+    rangeMax.value = rangeMin.value;
+  }
+  updateTrack();
+  updateValues();
+  filterProducts();
+});
+
+resetBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  rangeMin.value = 0;
+  rangeMax.value = 150;
+  updateTrack();
+  updateValues();
+  filterProducts();
+});
+
+// Gọi các hàm ngay khi tải trang
+updateTrack();
+updateValues();
+filterProducts();
+</script>
