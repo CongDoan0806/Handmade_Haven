@@ -29,8 +29,6 @@ app.use(cartQuantityMiddleware);
 
 const route = require('./routers')
 
-// app.use(methodOverride('_method'))
-
 app.use(express.static(path.join(__dirname, 'public'))) // xuử lý hiển thị ảnhảnh
 
 app.use(express.urlencoded({
@@ -58,3 +56,4 @@ app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })
 
+module.exports = app;
